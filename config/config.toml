@@ -1,0 +1,14 @@
+[app]
+port = 8080
+
+[database]
+dburl = "root123:root123@tcp(localhost:3306)/dbcity?parseTime=true"
+
+[RajaOngkir]
+api_key = "6cf1c00be03289e8f17ecaa8e9a44698"
+
+[Binderbyte]
+api_key = "5f568074ed033bc847531cd939e9cf56f9dcaa004bc3aa5bc15a24efb08c8992"
+
+[secrettoken]
+token = "3123"

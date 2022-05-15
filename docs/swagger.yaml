@@ -1,0 +1,558 @@
+basePath: /
+definitions:
+  admin.Admin:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - username
+    type: object
+  admin.AdminSwagger:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - username
+    type: object
+  admin.GetCityById:
+    properties:
+      nama_kota:
+        type: string
+      tipe_kota:
+        type: string
+    type: object
+  admin.InputAdminToken:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  admin.Kota:
+    properties:
+      id:
+        type: integer
+      kota_nama:
+        type: string
+      postal_code:
+        type: integer
+      province_id:
+        type: integer
+      rajaongkir_city_id:
+        type: integer
+      tipe:
+        type: string
+    required:
+    - kota_nama
+    - postal_code
+    - province_id
+    - rajaongkir_city_id
+    - tipe
+    type: object
+  ongkir.CekResiBinderByte:
+    properties:
+      Message:
+        type: string
+      data:
+        properties:
+          history:
+            items:
+              $ref: '#/definitions/ongkir.History'
+            type: array
+          summary:
+            properties:
+              awb:
+                type: string
+              courier:
+                type: string
+              service:
+                type: string
+              status:
+                type: string
+              weight:
+                type: string
+            type: object
+        type: object
+      status:
+        type: integer
+    type: object
+  ongkir.Cost:
+    properties:
+      cost:
+        items:
+          properties:
+            etd:
+              type: string
+            note:
+              type: string
+            value:
+              type: integer
+          type: object
+        type: array
+      description:
+        type: string
+      service:
+        type: string
+    type: object
+  ongkir.History:
+    properties:
+      date:
+        type: string
+      desc:
+        type: string
+    type: object
+  ongkir.Kota:
+    properties:
+      id:
+        type: integer
+      kota_nama:
+        type: string
+      postal_code:
+        type: string
+      province_id:
+        type: integer
+      provinces:
+        $ref: '#/definitions/ongkir.Provinces'
+      rajaongkir_city_id:
+        type: integer
+      tipe:
+        type: string
+    type: object
+  ongkir.Ongkir:
+    properties:
+      asal:
+        type: string
+      berat:
+        type: string
+      tipe_asal:
+        type: string
+      tipe_tujuan:
+        type: string
+      tujuan:
+        type: string
+    required:
+    - asal
+    - berat
+    - tipe_asal
+    - tipe_tujuan
+    - tujuan
+    type: object
+  ongkir.Provinces:
+    properties:
+      id:
+        type: integer
+      provinsi_nama:
+        type: string
+    type: object
+  ongkir.Resi:
+    properties:
+      kurir:
+        type: string
+      resi:
+        type: string
+    required:
+    - kurir
+    - resi
+    type: object
+  ongkir.Results:
+    properties:
+      code:
+        type: string
+      costs:
+        items:
+          $ref: '#/definitions/ongkir.Cost'
+        type: array
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Berikut API Jasa Pengiriman
+  title: API Jasa Pengiriman
+  version: "1.0"
+paths:
+  /admin:
+    get:
+      consumes:
+      - application/json
+      description: Get all admin with data
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/admin.Admin'
+            type: array
+      summary: Get All admin
+      tags:
+      - Admin using Token JWT
+    post:
+      consumes:
+      - application/json
+      description: create admin with data
+      parameters:
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.AdminSwagger'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/admin.Admin'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create admin
+      tags:
+      - admin
+  /admin/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete data admin
+      parameters:
+      - description: id admin
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: ""
+      summary: Delete Admin
+      tags:
+      - admin
+    get:
+      consumes:
+      - application/json
+      description: Get Admin By ID
+      parameters:
+      - description: anything id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/admin.Admin'
+      summary: Get Admin By ID
+      tags:
+      - admin
+    put:
+      consumes:
+      - application/json
+      description: update data admin
+      parameters:
+      - description: id admin
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.AdminSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: ""
+      summary: Update Admin
+      tags:
+      - Admin using Token JWT
+  /admin/city:
+    get:
+      consumes:
+      - application/json
+      description: Get all city for admin using jwt
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ongkir.Kota'
+            type: array
+        "400":
+          description: ""
+      summary: Get All City
+      tags:
+      - Admin using Token JWT
+    post:
+      consumes:
+      - application/json
+      description: Create data city for admin
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Kota
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.Kota'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/admin.Kota'
+        "400":
+          description: ""
+      summary: Create Data City
+      tags:
+      - Admin using Token JWT
+  /admin/city/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete data city for admin
+      parameters:
+      - description: id city
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/admin.Kota'
+        "400":
+          description: ""
+      summary: Delete Data City
+      tags:
+      - Admin using Token JWT
+    put:
+      consumes:
+      - application/json
+      description: Update data city for admin
+      parameters:
+      - description: id city
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Kota
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.Kota'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/admin.Kota'
+        "400":
+          description: ""
+      summary: Update Data City
+      tags:
+      - Admin using Token JWT
+  /admin/token:
+    post:
+      consumes:
+      - application/json
+      description: Get token for admin
+      parameters:
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.InputAdminToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: ""
+      summary: Get Token
+      tags:
+      - admin
+  /cekresi:
+    post:
+      consumes:
+      - application/json
+      description: Get detail resi from binderbyte
+      parameters:
+      - description: Resi
+        in: body
+        name: Resi
+        required: true
+        schema:
+          $ref: '#/definitions/ongkir.Resi'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ongkir.CekResiBinderByte'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Detail Resi
+      tags:
+      - Get ongkir and check resi
+  /city:
+    post:
+      consumes:
+      - application/json
+      description: Get data city by name dan tipe for public
+      parameters:
+      - description: Kota
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/admin.GetCityById'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/admin.Kota'
+        "400":
+          description: ""
+      summary: Get data city by name dan tipe
+      tags:
+      - city
+  /cost:
+    post:
+      consumes:
+      - application/json
+      description: Get Cost Ongkir from raja ongkir
+      parameters:
+      - description: ongkir
+        in: body
+        name: Ongkir
+        required: true
+        schema:
+          $ref: '#/definitions/ongkir.Ongkir'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ongkir.Results'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Cost Ongkir
+      tags:
+      - Get ongkir and check resi
+swagger: "2.0"
